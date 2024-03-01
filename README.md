@@ -1,5 +1,5 @@
 # CricaVPR
-This is the official repository for the CVPR 2024 paper "CricaVPR: Cross-image Correlation-aware Representation Learning for Visual Place Recognition".
+This is the official repository for the CVPR 2024 paper "[CricaVPR: Cross-image Correlation-aware Representation Learning for Visual Place Recognition](https://arxiv.org/pdf/2402.19231.pdf)".
 
 The code will be released soon.
 
