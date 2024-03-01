@@ -5,4 +5,4 @@ The code will be released soon.
 
 **Our another work (two-stage VPR based on DINOv2) SelaVPR achieved SOTA performance on several datasets. The code has been released [HERE](https://github.com/Lu-Feng/SelaVPR).**
 
-<img src="image/architecture.png" width="900px">
+<img src="image/architecture.png" width="1200px">
