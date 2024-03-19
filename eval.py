@@ -21,6 +21,9 @@ start_time = datetime.now()
 args.save_dir = join("test", args.save_dir, start_time.strftime('%Y-%m-%d_%H-%M-%S'))
 commons.setup_logging(args.save_dir)
 commons.make_deterministic(args.seed)
+
+if args.eval_dataset_name.startswith("pitts"):     # set infer_batch_size = 8 for pitts30k/pitts250k
+    args.infer_batch_size = args.infer_batch_size // 2
 logging.info(f"Arguments: {args}")
 logging.info(f"The outputs are being saved in {args.save_dir}")
 

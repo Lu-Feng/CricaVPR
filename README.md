@@ -34,29 +34,25 @@ python3 train.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eva
 
 ## Test
 
-To evaluate the trained model on Pitts30k/Pitts250k:
+To evaluate the trained model:
 
 ```
-python3 eval.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eval_dataset_name=pitts30k --resume=/path/to/trained/model/CricaVPR.pth --infer_batch_size=8
-```
-
-To evaluate the trained model on other datasets:
-
-```
-python3 eval.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eval_dataset_name=msls --resume=/path/to/trained/model/CricaVPR.pth
+python3 eval.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eval_dataset_name=pitts30k --resume=/path/to/trained/model/CricaVPR.pth
 ```
 
 To add PCA:
 
 ```
-python3 eval.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eval_dataset_name=pitts30k --resume=/path/to/trained/model/CricaVPR.pth --infer_batch_size=8 --pca_dim=4096 --pca_dataset_folder=pitts30k/images/train
+python3 eval.py --eval_datasets_folder=/path/to/your/datasets_vg/datasets --eval_dataset_name=pitts30k --resume=/path/to/trained/model/CricaVPR.pth --pca_dim=4096 --pca_dataset_folder=pitts30k/images/train
 ```
 
 ## Trained Model
 
 You can directly download the trained model [HERE](https://drive.google.com/file/d/171lCcxZFFnvEvo88ntIwELeBegcMTEJs/view?usp=sharing).
 
-**Our another work (two-stage VPR based on DINOv2) SelaVPR achieved SOTA performance on several datasets. The code has been released [HERE](https://github.com/Lu-Feng/SelaVPR).**
+## Related Work
+
+**Our another work (two-stage VPR based on DINOv2) SelaVPR achieved SOTA performance on several datasets. The code is released at [HERE](https://github.com/Lu-Feng/SelaVPR).**
 
 ## Acknowledgements
 

@@ -44,11 +44,14 @@ class GeoLocalizationNet(nn.Module):
         super().__init__()
         self.backbone = get_backbone(args)
         self.aggregation = nn.Sequential(L2Norm(), GeM(work_with_tokens=None), Flatten())
+
+        # In TransformerEncoderLayer, "batch_first=False" means the input tensors should be provided as (seq, batch, feature) to encode on the "seq" dimension.
+        # Our input tensor is provided as (batch, seq, feature), which performs encoding on the "batch" dimension.
         encoder_layer = nn.TransformerEncoderLayer(d_model=768, nhead=16, dim_feedforward=2048, activation="gelu", dropout=0.1, batch_first=False)
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=2) # Cross-image encoder
         
         if args.fc_output_dim != None:
-            # Concatenate fully connected layer to the aggregation layer
+            # Concatenate fully connected layer
             self.aggregation = nn.Sequential(self.aggregation,
                                              nn.Linear(args.features_dim, args.fc_output_dim),
                                              L2Norm())
