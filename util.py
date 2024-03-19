@@ -52,7 +52,7 @@ def resume_train(args, model, optimizer=None, strict=False):
 
 def compute_pca(args, model, pca_dataset_folder, full_features_dim):
     model = model.eval()
-    pca_ds = datasets_ws.PCADataset(args, args.datasets_folder, pca_dataset_folder)
+    pca_ds = datasets_ws.PCADataset(args, args.eval_datasets_folder, pca_dataset_folder)
     dl = torch.utils.data.DataLoader(pca_ds, args.infer_batch_size, shuffle=True)
     pca_features = np.empty([min(len(pca_ds), 2**14), full_features_dim])
     with torch.no_grad():
