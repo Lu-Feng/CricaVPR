@@ -37,25 +37,18 @@ class L2Norm(nn.Module):
         return F.normalize(x, p=2, dim=self.dim)
 
 
-class GeoLocalizationNet(nn.Module):
+class CricaVPRNet(nn.Module):
     """The used networks are composed of a backbone and an aggregation layer.
     """
-    def __init__(self, args):
+    def __init__(self, pretrained_foundation = False, foundation_model_path = None):
         super().__init__()
-        self.backbone = get_backbone(args)
+        self.backbone = get_backbone(pretrained_foundation, foundation_model_path)
         self.aggregation = nn.Sequential(L2Norm(), GeM(work_with_tokens=None), Flatten())
 
         # In TransformerEncoderLayer, "batch_first=False" means the input tensors should be provided as (seq, batch, feature) to encode on the "seq" dimension.
         # Our input tensor is provided as (batch, seq, feature), which performs encoding on the "batch" dimension.
         encoder_layer = nn.TransformerEncoderLayer(d_model=768, nhead=16, dim_feedforward=2048, activation="gelu", dropout=0.1, batch_first=False)
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=2) # Cross-image encoder
-        
-        if args.fc_output_dim != None:
-            # Concatenate fully connected layer
-            self.aggregation = nn.Sequential(self.aggregation,
-                                             nn.Linear(args.features_dim, args.fc_output_dim),
-                                             L2Norm())
-            args.features_dim = args.fc_output_dim
 
     def forward(self, x):
         x = self.backbone(x)        
@@ -76,14 +69,13 @@ class GeoLocalizationNet(nn.Module):
         x = torch.nn.functional.normalize(x, p=2, dim=-1)
         return x
 
-def get_backbone(args):
+def get_backbone(pretrained_foundation, foundation_model_path):
     backbone = vit_base(patch_size=14,img_size=518,init_values=1,block_chunks=0)  
-    assert not (args.foundation_model_path is None and args.resume is None), "Please specify foundation model path."
-    if args.foundation_model_path:
+    if pretrained_foundation:
+        assert foundation_model_path is not None, "Please specify foundation model path."
         model_dict = backbone.state_dict()
-        state_dict = torch.load(args.foundation_model_path)
+        state_dict = torch.load(foundation_model_path)
         model_dict.update(state_dict.items())
         backbone.load_state_dict(model_dict)
-    args.features_dim = 14*768
     return backbone
 

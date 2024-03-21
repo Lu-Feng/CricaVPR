@@ -41,8 +41,9 @@ logging.info(f"Val set: {val_ds}")
 test_ds = datasets_ws.BaseDataset(args, args.eval_datasets_folder, args.eval_dataset_name, "test")
 logging.info(f"Test set: {test_ds}")
 
+args.features_dim = 14*768
 #### Initialize model
-model = network.GeoLocalizationNet(args)
+model = network.CricaVPRNet(pretrained_foundation = True, foundation_model_path = args.foundation_model_path)
 
 model = model.to(args.device)
 
